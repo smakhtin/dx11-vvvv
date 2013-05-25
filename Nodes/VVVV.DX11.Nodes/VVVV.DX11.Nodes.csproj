@@ -115,6 +115,7 @@
     <Reference Include="System.Xml" />
     <Reference Include="SlimDX">
       <HintPath>..\..\Dependencies\$(Platform)\SlimDX.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="PluginInterfaces">
       <HintPath>..\..\Dependencies\$(Platform)\VVVV.PluginInterfaces.dll</HintPath>
@@ -126,6 +127,7 @@
     </Reference>
     <Reference Include="VideoInputSharp">
       <HintPath>..\..\Dependencies\x86\VideoInputSharp.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="VVVV.Utils">
       <HintPath>..\..\Dependencies\$(Platform)\VVVV.Utils.dll</HintPath>
