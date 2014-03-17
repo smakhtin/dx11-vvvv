@@ -2,6 +2,11 @@
 [Bb]in/
 [Oo]bj/
 
+#node dirs
+core/
+factories/
+nodes/
+
 # mstest test results
 TestResults
 Zip
