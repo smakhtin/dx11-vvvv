@@ -16,63 +16,99 @@ using namespace System::Collections::Generic;
 using namespace System;
 using namespace System::ComponentModel::Composition;
 
-namespace VVVV { namespace Nodes { namespace DX11 {
+namespace VVVV {
+	namespace Nodes {
+		namespace DX11 {
 
-[PluginInfo(Name="Text",Author="vux",Category="DX11.Layer",Version="")]
-public ref class DX11TextLayerNode : public IPluginEvaluate,IDX11LayerProvider
-{
-public:
-	[ImportingConstructor()]
-	DX11TextLayerNode(IIOFactory^ factory);
-	virtual void Evaluate(int SpreadMax);
-	virtual void Update(IPluginIO^ pin, DX11RenderContext^ OnDevice);
-	virtual void Destroy(IPluginIO^ pin, DX11RenderContext^ OnDevice, bool force);
-private:
-	ITransformIn^ FInTr;
+			public enum class WeightType
+			{
+				Thin,
+				ExtraLight,
+				UltraLight,
+				Light,
+				Normal,
+				Regular,
+				Medium,
+				DemiBold,
+				SemiBold,
+				Bold,
+				ExtraBold,
+				UltraBold,
+				Black,
+				Heavy,
+				ExtraBlack,
+				UltraBlack
+			};
 
-	[Input("Render State")]
-	Pin<DX11RenderState^>^ FStateIn;
+			public enum StyleType
+			{
+				Normal,
+				Oblique,
+				Italic
+			};
 
-	[Input("String",DefaultString="DX11", Order=0)]
-    ISpread<System::String^>^ FInString;
+			[PluginInfo(Name = "Text", Author = "vux", Category = "DX11.Layer", Version = "")]
+			public ref class DX11TextLayerNode : public IPluginEvaluate, IDX11LayerProvider
+			{
+			public:
+				[ImportingConstructor()]
+				DX11TextLayerNode(IIOFactory^ factory);
+				virtual void Evaluate(int SpreadMax);
+				virtual void Update(IPluginIO^ pin, DX11RenderContext^ OnDevice);
+				virtual void Destroy(IPluginIO^ pin, DX11RenderContext^ OnDevice, bool force);
+			private:
+				ITransformIn^ FInTr;
 
-	[Input("Font", EnumName = "SystemFonts", Order = 2)]
-	ISpread<EnumEntry^>^ FFontInput;
+				[Input("String", DefaultString = "DX11")]
+				ISpread<System::String^>^ FInString;
 
-	[Input("Italic", Order = 3)]
-	ISpread<bool>^ FItalicInput;
+				[Input("Font", EnumName = "SystemFonts")]
+				ISpread<EnumEntry^>^ FFontInput;
 
-	[Input("Bold", Order = 4)]
-	IDiffSpread<bool>^ FBoldInput;
+				[Input("Italic")]
+				ISpread<bool>^ FItalicInput;
 
-	[Input("Size", Order = 5, DefaultValue=32)]
-    ISpread<float>^ FInSize;
+				[Input("Bold")]
+				IDiffSpread<bool>^ FBoldInput;
 
-	[Input("Color", Order = 6)]
-    ISpread<SlimDX::Color4>^ FInColor;
+				[Input("Size")]
+				ISpread<float>^ FInSize;
 
-	[Input("Horizontal Align", EnumName = "HorizontalAlign", Order = 7)]
-	ISpread<EnumEntry^>^ FHorizontalAlignInput;
+				[Input("Color")]
+				ISpread<SlimDX::Color4>^ FInColor;
 
-	[Input("Vertical Align", EnumName = "VerticalAlign", Order = 8)]
-	ISpread<EnumEntry^>^ FVerticalAlignInput;
+				[Input("Horizontal Align", EnumName = "HorizontalAlign")]
+				ISpread<EnumEntry^>^ FHorizontalAlignInput;
 
-	[Input("Normalize", EnumName = "Normalize", Order = 9)]
-	ISpread<EnumEntry^>^ FNormalizeInput;
+				[Input("Vertical Align", EnumName = "VerticalAlign")]
+				ISpread<EnumEntry^>^ FVerticalAlignInput;
 
-	[Input("Enabled", IsSingle = true, DefaultValue = 1, Order = 10)]
-	ISpread<bool>^ FInEnabled;
+				[Input("Normalize", EnumName = "Normalize")]
+				ISpread<EnumEntry^>^ FNormalizeInput;
+
+				[Input("Enabled", IsSingle = true, DefaultValue = 1)]
+				ISpread<bool>^ FInEnabled;
+
+				[Input("Word Wrap", IsSingle = true, DefaultValue = 0)]
+				ISpread<bool>^ FInWordWrap;
+
+				[Input("Width [px] : Multiline Mode", IsSingle = true, DefaultValue = 300.0f)]
+				ISpread<float>^ FInWrapWidth;
+
+				[Input("Weight", IsSingle = true)]
+				ISpread<WeightType>^ FInWeight;
 
 
-	[Output("Layer", IsSingle=true)]
-    ISpread<DX11Resource<DX11Layer^>^>^ FOutLayer;
+				[Output("Layer", IsSingle = true)]
+				ISpread<DX11Resource<DX11Layer^>^>^ FOutLayer;
 
-	void Render(IPluginIO^ pin,DX11RenderContext^ ctx, DX11RenderSettings^ settings);
+				void Render(IPluginIO^ pin, DX11RenderContext^ ctx, DX11RenderSettings^ settings);
 
-	Dictionary<DX11RenderContext^,IntPtr>^ fontrenderers;
-	int spmax;
+				Dictionary<DX11RenderContext^, IntPtr>^ fontrenderers;
+				int spmax;
 
-	IIOFactory^ iofactory;
-};
-
-}}}
+				IIOFactory^ iofactory;
+			};
+		}
+	}
+}
